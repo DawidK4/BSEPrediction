@@ -7,3 +7,5 @@ Tune hyperparameters (number of layers, neurons, learning rate, etc.).
 Use regularization (dropout, L2).
 
 Increase the dataset size if possible.
+
+TUNE THE HYPERPARAMETERS
