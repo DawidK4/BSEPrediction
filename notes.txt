@@ -1,0 +1,9 @@
+Scale/normalize all features for all neural network models.
+
+Increase the lookback window for LSTM to use more time steps.
+
+Tune hyperparameters (number of layers, neurons, learning rate, etc.).
+
+Use regularization (dropout, L2).
+
+Increase the dataset size if possible.
