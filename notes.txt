@@ -9,3 +9,5 @@ Use regularization (dropout, L2).
 Increase the dataset size if possible.
 
 TUNE THE HYPERPARAMETERS
+
+READ ABOUT NORMALIZATION AND IMPLEMENT IT 
