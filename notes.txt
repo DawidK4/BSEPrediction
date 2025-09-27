@@ -11,3 +11,16 @@ Increase the dataset size if possible.
 TUNE THE HYPERPARAMETERS
 
 READ ABOUT NORMALIZATION AND IMPLEMENT IT 
+
+
+---------------------------------------------------
+1. Introduction, approach, problem description
+2. Parameters
+3. Models
+4. Tools used
+
+----------------------------
+To do:
+-feature selection
+-adding models
+-
