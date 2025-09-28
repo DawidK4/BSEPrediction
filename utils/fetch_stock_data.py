@@ -92,6 +92,37 @@ def fetch_splits(ticker: str, period: str='max') -> pd.Series:
         splits = splits[(splits.index >= start_date) & (splits.index <= end_date)]
     return splits
 
+def fetch_capital_gains(ticker: str, period: str='max') -> pd.Series:
+    """
+    Fetch capital gains data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    period (str): Data period to download (e.g., '1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max').
+
+    Returns:
+    pd.Series: Series containing capital gains data.
+    """
+    stock = yf.Ticker(ticker)
+    # Note: yfinance does not provide a direct method to fetch capital gains.
+    # This is a placeholder implementation and may need to be adjusted based on actual data availability.
+    capital_gains = stock.actions.get('Capital Gains', pd.Series(dtype=float))
+    if period != 'max' and not capital_gains.empty:
+        end_date = pd.Timestamp.today()
+        if capital_gains.index.tz is not None:
+            tz = capital_gains.index.tz
+            end_date = end_date.tz_localize(tz)
+        if period.endswith('d'):
+            start_date = end_date - pd.Timedelta(days=int(period[:-1]))
+        elif period.endswith('mo'):
+            start_date = end_date - pd.DateOffset(months=int(period[:-2]))
+        elif period.endswith('y'):
+            start_date = end_date - pd.DateOffset(years=int(period[:-1]))
+        else:
+            raise ValueError("Invalid period format. Use 'd' for days, 'mo' for months, or 'y' for years.")
+        capital_gains = capital_gains[(capital_gains.index >= start_date) & (capital_gains.index <= end_date)]
+    return capital_gains
+
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
@@ -99,6 +130,7 @@ if __name__ == "__main__":
     volume_data = fetch_volume(ticker, period='1y', interval='1d')
     dividend_data = fetch_dividends(ticker, period='1y')
     split_data = fetch_splits(ticker, period='1y')
+    capital_gains_data = fetch_capital_gains(ticker, period='1y')
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
@@ -106,5 +138,7 @@ if __name__ == "__main__":
     # print(volume_data.head())
     # print("\nDividend Data:")
     # print(dividend_data.head())
-    print("\nSplit Data:")
-    print(split_data.head())
+    # print("\nSplit Data:")
+    # print(split_data.head())
+    print("\nCapital Gains Data:")
+    print(capital_gains_data.head())
