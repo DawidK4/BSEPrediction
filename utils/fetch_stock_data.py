@@ -34,7 +34,7 @@ def fetch_volume(ticker: str, period: str='max', interval: str='1d') -> pd.Serie
     data = yf.download(ticker, period=period, interval=interval)
     return data['Volume']
 
-def ferch_dividends(ticker: str, period: str='max') -> pd.Series:
+def fetch_dividends(ticker: str, period: str='max') -> pd.Series:
     """
     Fetch dividend data for a given stock ticker.
 
@@ -63,17 +63,48 @@ def ferch_dividends(ticker: str, period: str='max') -> pd.Series:
         dividends = dividends[(dividends.index >= start_date) & (dividends.index <= end_date)]
     return dividends
 
+def fetch_splits(ticker: str, period: str='max') -> pd.Series:
+    """
+    Fetch stock split data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    period (str): Data period to download (e.g., '1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max').
+
+    Returns:
+    pd.Series: Series containing stock split data.
+    """
+    stock = yf.Ticker(ticker)
+    splits = stock.splits
+    if period != 'max':
+        end_date = pd.Timestamp.today()
+        if splits.index.tz is not None:
+            tz = splits.index.tz
+            end_date = end_date.tz_localize(tz)
+        if period.endswith('d'):
+            start_date = end_date - pd.Timedelta(days=int(period[:-1]))
+        elif period.endswith('mo'):
+            start_date = end_date - pd.DateOffset(months=int(period[:-2]))
+        elif period.endswith('y'):
+            start_date = end_date - pd.DateOffset(years=int(period[:-1]))
+        else:
+            raise ValueError("Invalid period format. Use 'd' for days, 'mo' for months, or 'y' for years.")
+        splits = splits[(splits.index >= start_date) & (splits.index <= end_date)]
+    return splits
 
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
     ohlc_data = fetch_ohlc(ticker, period='1y', interval='1d')
     volume_data = fetch_volume(ticker, period='1y', interval='1d')
-    dividend_data = ferch_dividends(ticker, period='1y')
+    dividend_data = fetch_dividends(ticker, period='1y')
+    split_data = fetch_splits(ticker, period='1y')
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
     # print("\nVolume Data:")
     # print(volume_data.head())
-    print("\nDividend Data:")
-    print(dividend_data.head())
+    # print("\nDividend Data:")
+    # print(dividend_data.head())
+    print("\nSplit Data:")
+    print(split_data.head())
