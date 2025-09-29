@@ -123,6 +123,25 @@ def fetch_capital_gains(ticker: str, period: str='max') -> pd.Series:
         capital_gains = capital_gains[(capital_gains.index >= start_date) & (capital_gains.index <= end_date)]
     return capital_gains
 
+def fetch_income_statement(ticker: str, period: str='annual') -> pd.DataFrame:
+    """
+    Fetch income statement data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    period (str): 'annual' or 'quarterly'.
+
+    Returns:
+    pd.DataFrame: DataFrame containing income statement data.
+    """
+    stock = yf.Ticker(ticker)
+    if period == 'annual':
+        return stock.financials
+    elif period == 'quarterly':
+        return stock.quarterly_financials
+    else:
+        raise ValueError("Invalid period. Use 'annual' or 'quarterly'.")
+
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
@@ -131,6 +150,7 @@ if __name__ == "__main__":
     dividend_data = fetch_dividends(ticker, period='1y')
     split_data = fetch_splits(ticker, period='1y')
     capital_gains_data = fetch_capital_gains(ticker, period='1y')
+    income_statement = fetch_income_statement(ticker, period='annual')
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
@@ -140,5 +160,7 @@ if __name__ == "__main__":
     # print(dividend_data.head())
     # print("\nSplit Data:")
     # print(split_data.head())
-    print("\nCapital Gains Data:")
-    print(capital_gains_data.head())
+    # print("\nCapital Gains Data:")
+    # print(capital_gains_data.head())
+    print("\nIncome Statement:")
+    print(income_statement.head())
