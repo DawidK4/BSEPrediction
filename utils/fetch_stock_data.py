@@ -142,6 +142,25 @@ def fetch_income_statement(ticker: str, period: str='annual') -> pd.DataFrame:
     else:
         raise ValueError("Invalid period. Use 'annual' or 'quarterly'.")
 
+def fetch_balance_sheet(ticker: str, period: str='annual') -> pd.DataFrame:
+    """
+    Fetch balance sheet data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    period (str): 'annual' or 'quarterly'.
+
+    Returns:
+    pd.DataFrame: DataFrame containing balance sheet data.
+    """
+    stock = yf.Ticker(ticker)
+    if period == 'annual':
+        return stock.balance_sheet
+    elif period == 'quarterly':
+        return stock.quarterly_balance_sheet
+    else:
+        raise ValueError("Invalid period. Use 'annual' or 'quarterly'.")
+
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
@@ -151,6 +170,7 @@ if __name__ == "__main__":
     split_data = fetch_splits(ticker, period='1y')
     capital_gains_data = fetch_capital_gains(ticker, period='1y')
     income_statement = fetch_income_statement(ticker, period='annual')
+    balance_sheet = fetch_balance_sheet(ticker, period='annual')
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
@@ -164,3 +184,5 @@ if __name__ == "__main__":
     # print(capital_gains_data.head())
     print("\nIncome Statement:")
     print(income_statement.head())
+    print("\nBalance Sheet:")
+    print(balance_sheet.head())
