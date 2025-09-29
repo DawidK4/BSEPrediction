@@ -197,6 +197,19 @@ def fetch_ttm_cash_flow(ticker: str) ->pd.Series:
     ttm_cash_flow = cashflow.iloc[:, :4].sum(axis=1)
     return ttm_cash_flow
 
+def fetch_earnings(ticker: str) -> pd.DataFrame:
+    """
+    Fetch earnings data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+
+    Returns:
+    pd.DataFrame: DataFrame containing earnings data.
+    """
+    stock = yf.Ticker(ticker)
+    return stock.earnings
+
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
@@ -209,6 +222,7 @@ if __name__ == "__main__":
     balance_sheet = fetch_balance_sheet(ticker, period='annual')
     cash_flow = fetch_cash_flow(ticker, period='annual')
     ttm_cash_flow = fetch_ttm_cash_flow(ticker)
+    earnings = fetch_earnings(ticker)
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
@@ -228,3 +242,6 @@ if __name__ == "__main__":
     print(cash_flow.head())
     print("\nTTM Cash Flow:")
     print(ttm_cash_flow.head())
+    print("\nEarnings:")
+    print(type(earnings))
+    print(earnings)
