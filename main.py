@@ -1,14 +1,14 @@
-from utils import save_data
+import utils
 
-def main():
+def save_aapl():
     path = '/home/dawid/projects/BSEPrediction/AAPL/data'
+    ticker = 'AAPL'
 
-    utils.save_data.save_financial_info('AAPL', path)
-    utils.save_data.save_price_and_volume('AAPL', path)
-    utils.save_data.save_financials('AAPL', path)
-    utils.save_data.save_analyst_info('AAPL', path)
-    utils.save_data.save_holders_info('AAPL', path)
-    utils.save_data.save_calendar_info('AAPL', path)
+    utils.save_price_and_volume(ticker, path)
+    utils.save_financials(ticker, path)
+    utils.save_additional_info(ticker, path)
+    utils.save_analysis(ticker, path)
+    utils.save_holdings(ticker, path)
 
 if __name__ == "__main__":
-    main()
+    save_aapl()
