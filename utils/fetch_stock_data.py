@@ -180,6 +180,23 @@ def fetch_cash_flow(ticker: str, period: str='annual') -> pd.DataFrame:
     else:
         raise ValueError("Invalid period. Use 'annual' or 'quarterly'.")
 
+def fetch_ttm_cash_flow(ticker: str) ->pd.Series:
+    """
+    Fetch trailing twelve months (TTM) cash flow data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+
+    Returns:
+    pd.Series: Series containing TTM cash flow data.
+    """
+    stock = yf.Ticker(ticker)
+    cashflow = stock.cashflow
+    if cashflow.empty or cashflow.shape[1] < 4:
+        raise ValueError("Not enough data to compute TTM cash flow.")
+    ttm_cash_flow = cashflow.iloc[:, :4].sum(axis=1)
+    return ttm_cash_flow
+
 if __name__ == "__main__":
     # Example usage
     ticker = "AAPL"
@@ -191,6 +208,7 @@ if __name__ == "__main__":
     income_statement = fetch_income_statement(ticker, period='annual')
     balance_sheet = fetch_balance_sheet(ticker, period='annual')
     cash_flow = fetch_cash_flow(ticker, period='annual')
+    ttm_cash_flow = fetch_ttm_cash_flow(ticker)
 
     # print("OHLC Data:")
     # print(ohlc_data.head())
@@ -208,3 +226,5 @@ if __name__ == "__main__":
     print(balance_sheet.head())
     print("\nCash Flow:")
     print(cash_flow.head())
+    print("\nTTM Cash Flow:")
+    print(ttm_cash_flow.head())
