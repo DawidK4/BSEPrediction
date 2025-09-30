@@ -11,12 +11,12 @@ def save_price_and_volume(ticker: str, filepath: str) -> None:
     """
     ohlc_data = fetch_ohlc(ticker)
     ohlc_file = os.path.join(filepath, f'{ticker}_ohlc.csv')
-    if not ohlc_data.empty:
+    if ohlc_data.empty is not None:
         ohlc_data.to_csv(ohlc_file)
 
     volume_data = fetch_volume(ticker)
     volume_file = os.path.join(filepath, f'{ticker}_volume.csv')
-    if not volume_data.empty:
+    if volume_data.empty is not None:
         volume_data.to_csv(volume_file, header=['Volume'])
 
     print(f"OHLCV for {ticker} saved to CSV files in {filepath}.")
@@ -33,47 +33,47 @@ def save_financials(ticker: str, filepath: str) -> None:
     data = yf.Ticker(ticker)
 
     dividends_data = fetch_dividends(ticker)
-    if not dividends_data.empty:
+    if dividends_data.empty is not None:
         dividends_data.to_csv(os.path.join(filepath, f'{ticker}_dividends.csv'), header=['Dividends'])
 
     splits_data = fetch_splits(ticker)
-    if not splits_data.empty:
+    if splits_data.empty is not None:
         splits_data.to_csv(os.path.join(filepath, f'{ticker}_splits.csv'), header=['Splits'])
 
     capital_gains_data = fetch_capital_gains(ticker)
-    if not capital_gains_data.empty:
+    if capital_gains_data.empty is not None:
         capital_gains_data.to_csv(os.path.join(filepath, f'{ticker}_capital_gains.csv'), header=['Capital Gains'])
 
     actions = data.actions
-    if not actions.empty:
+    if actions.empty is not None:
         actions.to_csv(os.path.join(filepath, f'{ticker}_actions.csv'))
 
     income_stmt = data.income_stmt
-    if not income_stmt.empty:
+    if income_stmt.empty is not None:
         income_stmt.to_csv(os.path.join(filepath, f'{ticker}_income_statement.csv'))
 
     balance_sheet = data.balance_sheet
-    if not balance_sheet.empty:
+    if balance_sheet.empty is not None:
         balance_sheet.to_csv(os.path.join(filepath, f'{ticker}_balance_sheet.csv'))
 
     cash_flow = data.cash_flow
-    if not cash_flow.empty:
+    if cash_flow.empty is not None:
         cash_flow.to_csv(os.path.join(filepath, f'{ticker}_cash_flow.csv'))
 
     ttm_cash_flow = data.ttm_cash_flow
-    if not ttm_cash_flow.empty:
+    if ttm_cash_flow.empty is not None:
         ttm_cash_flow.to_csv(os.path.join(filepath, f'{ticker}_ttm_cash_flow.csv'))
 
     earnings = data.earnings
-    if not earnings.empty:
+    if earnings.empty is not None:
         earnings.to_csv(os.path.join(filepath, f'{ticker}_earnings.csv'))
 
     info = pd.Series(data.info)
-    if not info.empty:
+    if info.empty is not None:
         info.to_csv(os.path.join(filepath, f'{ticker}_info.csv'), header=['Info'])
 
     calendar = pd.Series(data.calendar)
-    if not calendar.empty:
+    if calendar.empty is not None:
         calendar.to_csv(os.path.join(filepath, f'{ticker}_calendar.csv'), header=['Calendar'])
 
     print(f"Financial info for {ticker} saved to CSV files in {filepath}.")
@@ -89,23 +89,23 @@ def save_additional_info(ticker: str, filepath: str) -> None:
     data = yf.Ticker(ticker)
 
     sustainability = pd.DataFrame(data.sustainability)
-    if not sustainability.empty:
+    if sustainability.empty is not None:
         sustainability.to_csv(os.path.join(filepath, f'{ticker}_sustainability.csv'))
 
     recommendations = data.recommendations
-    if not recommendations.empty:
+    if recommendations.empty is not None:
         recommendations.to_csv(os.path.join(filepath, f'{ticker}_recommendations.csv'))
 
     institutional_holders = data.institutional_holders
-    if not institutional_holders.empty:
+    if institutional_holders.empty is not None:
         institutional_holders.to_csv(os.path.join(filepath, f'{ticker}_institutional_holders.csv'))
 
     mutualfund_holders = data.mutualfund_holders
-    if not mutualfund_holders.empty:
+    if mutualfund_holders.empty is not None:
         mutualfund_holders.to_csv(os.path.join(filepath, f'{ticker}_mutualfund_holders.csv'))
 
     options = pd.DataFrame(data.options, columns=['Options'])
-    if not options.empty:
+    if options.empty is not None:
         options.to_csv(os.path.join(filepath, f'{ticker}_options.csv'), index=False)
 
     print(f"Additional info for {ticker} saved to CSV files in {filepath}.")
@@ -121,15 +121,15 @@ def save_analysis(ticker: str, filepath: str) -> None:
     data = yf.Ticker(ticker)
 
     analysis = data.analysis
-    if not analysis.empty:
+    if analysis.empty is not None:
         analysis.to_csv(os.path.join(filepath, f'{ticker}_analysis.csv'))
 
     earnings_history = pd.DataFrame(data.earnings_history)
-    if not earnings_history.empty:
+    if earnings_history.empty is not None:
         earnings_history.to_csv(os.path.join(filepath, f'{ticker}_earnings_history.csv'), index=False)
 
     earnings_trend = pd.DataFrame(data.earnings_trend)
-    if not earnings_trend.empty:
+    if earnings_trend.empty is not None:
         earnings_trend.to_csv(os.path.join(filepath, f'{ticker}_earnings_trend.csv'), index=False)
 
     print(f"Analysis info for {ticker} saved to CSV files in {filepath}.")
@@ -145,31 +145,31 @@ def save_holdings(ticker: str, filepath: str) -> None:
     data = yf.Ticker(ticker)
 
     funds_data = data.funds_data
-    if not funds_data.empty:
+    if funds_data.empty is not None:
         funds_data.to_csv(os.path.join(filepath, f'{ticker}_funds_data.csv'))
 
     insider_purchases = data.insider_purchases
-    if not insider_purchases.empty:
+    if insider_purchases.empty is not None:
         insider_purchases.to_csv(os.path.join(filepath, f'{ticker}_insider_purchases.csv'))
 
     insider_transactions = data.insider_transactions
-    if not insider_transactions.empty:
+    if insider_transactions.empty is not None:
         insider_transactions.to_csv(os.path.join(filepath, f'{ticker}_insider_transactions.csv'))
 
     insider_roster_holders = data.insider_roster_holders
-    if not insider_roster_holders.empty:
+    if insider_roster_holders.empty is not None:
         insider_roster_holders.to_csv(os.path.join(filepath, f'{ticker}_insider_roster_holders.csv'))
 
     major_holders = data.major_holders
-    if not major_holders.empty:
+    if major_holders.empty is not None:
         major_holders.to_csv(os.path.join(filepath, f'{ticker}_major_holders.csv'))
 
     institutional_holder = data.institutional_holder
-    if not institutional_holder.empty:
+    if institutional_holder.empty is not None:
         institutional_holder.to_csv(os.path.join(filepath, f'{ticker}_institutional_holder.csv'))
 
     mutualfund_holders = data.mutualfund_holders
-    if not mutualfund_holders.empty:
+    if mutualfund_holders.empty is not None:
         mutualfund_holders.to_csv(os.path.join(filepath, f'{ticker}_mutualfund_holders.csv'))
 
     print(f"Holdings info for {ticker} saved to CSV files in {filepath}.")
