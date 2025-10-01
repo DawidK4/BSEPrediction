@@ -11,4 +11,4 @@ def save_aapl():
     utils.save_holdings(ticker, path)
 
 if __name__ == "__main__":
-    save_aapl()
+    pass
