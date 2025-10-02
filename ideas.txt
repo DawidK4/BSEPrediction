@@ -1,0 +1,14 @@
+Data collection:
+
+EDA:
+
+Visualizations:
+
+Feature engineering:
+- Create new features based on existing ones (e.g., ratios, differences).
+- Add features like (bool: price is above the MA, SMA), (int: number of consecutive up/down days).
+- Use rolling statistics (e.g., rolling mean, rolling std) as features.
+
+Data preprocessing:
+
+Models:
