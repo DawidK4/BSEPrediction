@@ -8,7 +8,9 @@ Feature engineering:
 - Create new features based on existing ones (e.g., ratios, differences).
 - Add features like (bool: price is above the MA, SMA), (int: number of consecutive up/down days).
 - Use rolling statistics (e.g., rolling mean, rolling std) as features.
+- Instead of numbers in the financial statemnets use bool (e.g., revenue increased compared to last year)
 
 Data preprocessing:
+-Transform financial statements (for each day has to be the last available financial record)
 
 Models:
