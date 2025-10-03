@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
-def fetch_ohlc(ticker: str, period: str='max', interval: str='1d') -> pd.DataFrame:
+def fetch_ohlc_and_volume(ticker: str, period: str='max', interval: str='1d') -> pd.DataFrame:
     """
     Fetch OHLC data for a given stock ticker.
 
@@ -14,24 +14,8 @@ def fetch_ohlc(ticker: str, period: str='max', interval: str='1d') -> pd.DataFra
     pd.DataFrame: DataFrame containing OHLC data.
     """
     data = yf.download(ticker, period=period, interval=interval)
-    data = data.drop('Volume', axis=1)
 
     return data
-
-def fetch_volume(ticker: str, period: str='max', interval: str='1d') -> pd.Series:
-    """
-    Fetch volume data for a given stock ticker.
-
-    Parameters:
-    ticker (str): Stock ticker symbol.
-    period (str): Data period to download (e.g., '1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max').
-    interval (str): Data interval (e.g., '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo').
-
-    Returns:
-    pd.Series: Series containing volume data.
-    """
-    data = yf.download(ticker, period=period, interval=interval)
-    return data['Volume']
 
 def fetch_dividends(ticker: str, period: str='max') -> pd.Series:
     """

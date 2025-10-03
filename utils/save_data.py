@@ -9,18 +9,10 @@ def save_price_and_volume(ticker: str, filepath: str) -> None:
     ticker (str): Stock ticker symbol.
     filepath (str): Directory path to save CSV files.
     """
-    ohlc_data = fetch_ohlc(ticker)
-    ohlc_file = os.path.join(filepath, f'{ticker}_ohlc.csv')
-    if ohlc_data is not None:
-        ohlc_data.to_csv(ohlc_file)
-
-    volume_data = fetch_volume(ticker)
-    volume_file = os.path.join(filepath, f'{ticker}_volume.csv')
-    if volume_data is not None:
-        volume_data.to_csv(volume_file, header=['Volume'])
-
-    print(f"OHLCV for {ticker} saved to CSV files in {filepath}.")
-
+    ohlc_and_volume = yf.download(ticker, period='max', interval='1d')
+    if ohlc_and_volume is not None:
+        ohlc_and_volume.to_csv(os.path.join(filepath, f'{ticker}_ohlc_and_volume.csv'))
+        print(f"OHLCV data for {ticker} saved to {os.path.join(filepath, f'{ticker}_ohlc_and_volume.csv')}.")
 
 def save_financials(ticker: str, filepath: str) -> None:
     """
