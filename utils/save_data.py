@@ -165,3 +165,16 @@ def save_holdings(ticker: str, filepath: str) -> None:
         mutualfund_holders.to_csv(os.path.join(filepath, f'{ticker}_mutualfund_holders.csv'))
 
     print(f"Holdings info for {ticker} saved to CSV files in {filepath}.")
+
+def save_splits(ticker: str, filepath: str) -> None:
+    """
+    Fetch and save stock split data for a given ticker to a CSV file.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    filepath (str): Directory path to save the CSV file.
+    """
+    splits_data = fetch_splits(ticker)
+    if splits_data is not None:
+        splits_data.to_csv(os.path.join(filepath, f'{ticker}_splits.csv'), header=['Splits'])
+        print(f"Splits data for {ticker} saved to {os.path.join(filepath, f'{ticker}_splits.csv')}.")
