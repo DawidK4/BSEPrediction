@@ -1,5 +1,6 @@
 import pandas as pd
 import yfinance as yf
+import os
 
 def get_price_and_volume(ticker: str, period: str='max', interval: str='1d') -> pd.DataFrame:
     """
@@ -101,3 +102,50 @@ def get_analysis_and_holdings(ticker: str) -> list[pd.DataFrame]:
             earnings_history, eps_trend, eps_revisions, growth_estimates,
             funds_data, insider_purchases, insider_roster_holders, major_holders,
             institutional_holders, mutualfund_holders]
+
+def download_and_save_data(ticker: str) -> None:
+    """
+    Download and save various stock data to CSV files.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+    """
+    base_path = f"{ticker}/data/"
+    subfolders = ['price', 'info', 'financials', 'analysis_and_holdings']
+
+    # Create all necessary directories
+    for folder in subfolders:
+        os.makedirs(os.path.join(base_path, folder), exist_ok=True)
+
+    # Fetch and save price and volume data
+    price_volume_data = get_price_and_volume(ticker)
+    price_volume_data.to_csv(os.path.join(base_path, 'price', f"{ticker}_price_volume.csv"))
+
+    # Fetch and save stock data
+    stock_data = get_stock_data(ticker)
+    stock_data_names = ['isin', 'history', 'dividends', 'splits', 'actions',
+                        'capital_gains', 'info', 'fast_info', 'news']
+    for data, name in zip(stock_data, stock_data_names):
+        if isinstance(data, (pd.DataFrame, pd.Series)):
+            data.to_csv(os.path.join(base_path, 'info', f"{ticker}_{name}.csv"))
+
+    # Fetch and save financial statements
+    financials = get_financials(ticker)
+    financials_names = ['income_statement', 'balance_sheet',
+                        'cashflow', 'calendar', 'sec_filings']
+    for data, name in zip(financials, financials_names):
+        if isinstance(data, (pd.DataFrame, pd.Series)):
+            data.to_csv(os.path.join(base_path, 'financials', f"{ticker}_{name}.csv"))
+
+    # Fetch and save analysis and holdings data
+    analysis_holdings = get_analysis_and_holdings(ticker)
+    analysis_holdings_names = ['recommendations', 'upgrades_downgrades', 'sustainability',
+                               'analyst_price_targets', 'earnings_estimate', 'revenue_estimate',
+                               'earnings_history', 'eps_trend', 'eps_revisions', 'growth_estimates',
+                               'funds_data', 'insider_purchases', 'insider_roster_holders', 'major_holders',
+                               'institutional_holders', 'mutualfund_holders']
+    for data, name in zip(analysis_holdings, analysis_holdings_names):
+        if isinstance(data, (pd.DataFrame, pd.Series)):
+            data.to_csv(os.path.join(base_path, 'analysis_and_holdings', f"{ticker}_{name}.csv"))
+
+
