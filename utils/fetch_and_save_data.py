@@ -66,3 +66,38 @@ def get_financials(ticker: str) -> list[pd.DataFrame]:
     return [income_statement, balance_sheet,
             cashflow, calendar, sec_filings]
 
+
+def get_analysis_and_holdings(ticker: str) -> list[pd.DataFrame]:
+    """
+    Fetch analysis and holdings data for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+
+    Returns:
+    list[pd.DataFrame]: List containing DataFrames of analysis and holdings.
+    """
+    stock = yf.Ticker(ticker)
+
+    recommendations = stock.recommendations
+    upgrades_downgrades = stock.upgrades_downgrades
+    sustainability = stock.sustainability
+    analyst_price_targets = stock.analyst_price_targets
+    earnings_estimate = stock.earnings_estimate
+    revenue_estimate = stock.revenue_estimate
+    earnings_history = stock.earnings_history
+    eps_trend = stock.eps_trend
+    eps_revisions = stock.eps_revisions
+    growth_estimates = stock.growth_estimates
+    funds_data = stock.funds_data
+    insider_purchases = stock.insider_purchases
+    insider_roster_holders = stock.insider_roster_holders
+    major_holders = stock.major_holders
+    institutional_holders = stock.institutional_holders
+    mutualfund_holders  = stock.mutualfund_holders
+
+    return  [recommendations, upgrades_downgrades, sustainability,
+            analyst_price_targets, earnings_estimate, revenue_estimate,
+            earnings_history, eps_trend, eps_revisions, growth_estimates,
+            funds_data, insider_purchases, insider_roster_holders, major_holders,
+            institutional_holders, mutualfund_holders]
