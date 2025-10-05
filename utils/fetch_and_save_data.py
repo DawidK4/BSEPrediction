@@ -40,3 +40,29 @@ def get_stock_data(ticker: str) -> list[pd.DataFrame]:
     news = stock.news
 
     return [isin, history, dividends, splits, actions, capital_gains, info, fast_info, news]
+
+def get_financials(ticker: str) -> list[pd.DataFrame]:
+    """
+    Fetch financial statements for a given stock ticker.
+
+    Parameters:
+    ticker (str): Stock ticker symbol.
+
+    Returns:
+    list[pd.DataFrame]: List containing DataFrames of balance sheet, cash flow, and earnings.
+    """
+    stock = yf.Ticker(ticker)
+
+    income_statement = stock.income_stmt
+    # ttm_income_statement = stock.income_stmt_ttm
+    balance_sheet = stock.balance_sheet
+    cashflow = stock.cashflow
+    # ttm_cash_flow = stock.cashflow_ttm
+    # earnings = stock.earnings
+    calendar = stock.calendar
+    # earnings_dates = stock.earnings_dates
+    sec_filings = stock.sec_filings
+
+    return [income_statement, balance_sheet,
+            cashflow, calendar, sec_filings]
+
