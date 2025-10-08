@@ -1,8 +1,6 @@
-from .fetch_stock_data import *
-from .save_data import *
+from .fetch_and_save_data import *
 
 __version__ = "1.0.0"
 __author__ = "Dawid Kucharski"
-__all__ = ["fetch_ohlc", "fetch_volume", "fetch_dividends", "fetch_splits", "fetch_capital_gains",
-            "save_price_and_volume", "save_financials", "save_additional_info", "save_analysis",
-            "save_holdings"]
+__all__ = ["get_price_and_volume", "get_stock_data", "get_financials", "get_analysis_and_holdings",
+           "download_and_save_data"]

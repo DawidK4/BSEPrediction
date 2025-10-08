@@ -1,0 +1,15 @@
+Data collection:
+
+EDA:
+
+Visualizations:
+
+Feature engineering:
+- Create new features based on existing ones (e.g., ratios, differences).
+- Instead of numbers in the financial statemnets use bool (e.g., revenue increased compared to last year)
+- Instead of adding 4 price parameters (open, close, high, low) add (close and volatility = high - low) and (open: higher/lower)
+
+Data preprocessing:
+-Transform financial statements (for each day has to be the last available financial record)
+
+Models:
