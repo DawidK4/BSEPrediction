@@ -103,6 +103,20 @@ def get_analysis_and_holdings(ticker: str) -> list[pd.DataFrame]:
             funds_data, insider_purchases, insider_roster_holders, major_holders,
             institutional_holders, mutualfund_holders]
 
+def download_and_save_VIX(period: str='max', interval: str='1d') -> None:
+    """
+    Fetch VIX index data.
+
+    Parameters:
+    period (str): Data period to download (e.g., '1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max').
+    interval (str): Data interval (e.g., '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo').
+
+    """
+    vix_data = yf.download('^VIX', period=period, interval=interval)
+
+    os.makedirs('VIX/data/price', exist_ok=True)
+    vix_data.to_csv('VIX/data/price/VIX_price_volume.csv')
+
 def download_and_save_data(ticker: str) -> None:
     """
     Download and save various stock data to CSV files.
