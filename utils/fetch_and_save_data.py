@@ -110,12 +110,51 @@ def download_and_save_VIX(period: str='max', interval: str='1d') -> None:
     Parameters:
     period (str): Data period to download (e.g., '1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max').
     interval (str): Data interval (e.g., '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo').
-
     """
     vix_data = yf.download('^VIX', period=period, interval=interval)
 
     os.makedirs('VIX/data/price', exist_ok=True)
     vix_data.to_csv('VIX/data/price/VIX_price_volume.csv')
+
+def download_and_save_broad_market_data(period: str = 'max', interval: str = '1d') -> None:
+    """
+    Fetch and save broad U.S. market data (OHLC) for major indices.
+
+    Parameters:
+    period (str): Data period to download (e.g., '1y', '5y', 'max').
+    interval (str): Data interval (e.g., '1d', '1wk', '1mo').
+    """
+    indices = {
+        "^GSPC": "S&P 500",
+        "^DJI": "Dow Jones Industrial Average",
+        "^IXIC": "NASDAQ Composite",
+        "^RUT": "Russell 2000",
+        "^VIX": "CBOE Volatility Index (VIX)",
+        "^NYA": "NYSE Composite",
+        "^XOI": "NYSE Arca Oil Index",
+        "^SOX": "PHLX Semiconductor Index",
+        "^TNX": "10-Year Treasury Yield",
+    }
+
+    os.makedirs("market_data", exist_ok=True)
+
+    for symbol, name in indices.items():
+        print(f"Downloading data for {name} ({symbol})...")
+        try:
+            df = yf.download(symbol, period=period, interval=interval, progress=False)
+            if df.empty:
+                print(f"⚠️ No data returned for {symbol}")
+                continue
+
+            safe_name = name.replace("/", "-").replace("\\", "-")
+            file_path = os.path.join("market_data", f"{safe_name}.csv")
+
+            df.to_csv(file_path)
+            print(f"✅ Saved: {file_path} ({len(df)} rows)")
+        except Exception as e:
+            print(f"❌ Failed to download {symbol}: {e}")
+
+    print("\nAll available market data downloaded and saved in 'market_data/' folder.")
 
 def download_and_save_data(ticker: str) -> None:
     """
