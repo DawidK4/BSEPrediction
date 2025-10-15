@@ -1,6 +1,7 @@
 # Mine
 options_temp.csv
 .jupyter
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
